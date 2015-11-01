@@ -1,6 +1,24 @@
 {% extends 'snippets.html' %}
 
-{% block run_count %}<p> Run Count: <input type="text" class="form-control" value="{{ code.run_count }}" readonly > </p><br>
+{% block run_count %}
+<a href="{{ code.download_url }}" class="btn btn-info" role="button">Download</a><br><br><br>
+<p> Run Count :    {{ code.run_count }} <br>
+</p>
+<br>
+{% endblock %}
+
+{% block access_url %}
+<p>Read Only URL:
+<a href="http://idecode.herokuapp.com/codegen/{{ code.code_id }}/"> 
+http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
+</a><br><br><br>
+
+{% if read_only %}
+	READ & Write URL: <a href="http://idecode.herokuapp.com/{{ code.code_id }}/?key={{ read_only }}"> 
+	http://idecode.herokuapp.com/codegen/{{ code.code_id }}/?key={{ read_only }}
+	</a>
+{% endif %}
+</p>
 {% endblock %}
 
 {% block code_id %}
@@ -14,12 +32,15 @@
 
 
 {% block save_button %}
+<input type="hidden" name="write_key" value="{{ read_only }}">
 <div style="margin-left: 700px">
- <a href=""><button type="button" class="btn btn-success">Save</button></a>
- </div>
- {% endblock %}
+<a href=""><button type="button" class="btn btn-success">Save</button></a>
+</div>
+{% endblock %}
 
- {% block output %} 
-{{ code_output }}
 
+{% block output %} 
+	{% if code_output %}
+		{{ code_output }}
+	{% endif %}
 {% endblock %}

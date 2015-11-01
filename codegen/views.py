@@ -24,13 +24,10 @@ def simple(request):
             snippet.lang = form.cleaned_data['lang']
             snippet.file_name = form.cleaned_data['file_name']
             snippet.save()
-            snippet.write_key = generate_key(snippet.code_id)
+            key = generate_key(snippet.code_id)
+            snippet.write_key = key
             snippet.save()
             return custom_redirect('update_code', snippet.code_id, key = snippet.write_key)
-            # form = SnippetForm(initial={'text': snippet.text, 'lang':snippet.lang})
-            # return render(request, "snippets.html", {
-            #     "form": form, "code":snippet,
-            # })
         else:
             form = SnippetForm(initial={'file_name':'Untitled File'})
     else:
@@ -56,7 +53,7 @@ def compile_n_run( source, lang):
             'client_secret': CLIENT_SECRET,
             'async': 0,
             'source': source,
-            'lang': 'PYTHON',
+            'lang': lang,
             'time_limit': 5,
             'memory_limit': 262144,
         }
@@ -75,19 +72,44 @@ def update_code(request, code_id):
 
     write_key = request.GET.get('key', False)
 
-    code_output = compile_n_run(code.text, code.lang)
-
-    if write_key == code.write_key:
-        read_only = False
-        code.download_url = DOWNLOAD_PREFIX + str(code_output['code_id'])
-        code.run_count += 1
-        code.save()
+    if request.method == 'GET':
+        if write_key == code.write_key:
+            if code.run_count == 0:
+                code_output = compile_n_run(code.text, code.lang)
+                read_only = write_key
+                code.download_url = DOWNLOAD_PREFIX + str(code_output['code_id'])
+                code.run_count += 1
+                code.save()
+            else:
+                code_output = False
+                read_only = write_key
+        else:
+            read_only = False
+            code_output = False
 
     else:
-        read_only = True
+        form = SnippetForm(request.POST)
+        if form.is_valid():
+            write_key = form.cleaned_data['write_key']
+
+        else:
+            return HttpResponseRedirect('/')
+
+        if write_key == code.write_key:
+            code.text = form.cleaned_data['text']
+            code.lang = form.cleaned_data['lang']
+            code.file_name = form.cleaned_data['file_name']
+            code.save()
+            code_output = compile_n_run(code.text, code.lang)
+            read_only = write_key
+            code.run_count += 1
+            code.save()
+        else:
+            code_output = compile_n_run(code.text, code.lang)
+            read_only = False
 
     form = SnippetForm(initial={'text': code.text, 'file_name':code.file_name})
-    print code.text
+    # print code.text
     context_list = {
             'form':form,
             'code': code,
