@@ -48,7 +48,7 @@ def generate_key(code_id):
   from time import localtime
   return "%s" % (md5(str(localtime()) + str(code_id)).hexdigest())
 
-def compile_n_run( source, lang):
+def compile_n_run( source, lang, inputt=None):
     data = {
             'client_secret': CLIENT_SECRET,
             'async': 0,
@@ -56,8 +56,9 @@ def compile_n_run( source, lang):
             'lang': lang,
             'time_limit': 5,
             'memory_limit': 262144,
-            # 'input' : 1,
         }
+    if inputt:
+        data['input'] = inputt
     r = requests.post(RUN_URL, data=data)
     return r.json()
 
@@ -72,6 +73,7 @@ def update_code(request, code_id):
         return HttpResponseRedirect('/')
 
     write_key = request.GET.get('key', False)
+    code_input = False
 
     if request.method == 'GET':
         if write_key == code.write_key:
@@ -101,20 +103,29 @@ def update_code(request, code_id):
             code.lang = form.cleaned_data['lang']
             code.file_name = form.cleaned_data['file_name']
             code.save()
-            code_output = compile_n_run(code.text, code.lang)
+            if form.cleaned_data['custom_input']:
+                code_input = form.cleaned_data['manual_input']
+                code_output = compile_n_run(code.text, code.lang, code_input)
+            else:
+                code_output = compile_n_run(code.text, code.lang)
+
             read_only = write_key
             code.run_count += 1
             code.save()
         else:
-            code_output = compile_n_run(code.text, code.lang)
+            if form.cleaned_data['custom_input']:
+                code_input = form.cleaned_data['manual_input']
+                code_output = compile_n_run(code.text, code.lang, code_input)
+            else:
+                code_output = compile_n_run(code.text, code.lang)
             read_only = False
 
     form = SnippetForm(initial={'text': code.text, 'file_name':code.file_name})
-    # print code.text
     context_list = {
             'form':form,
             'code': code,
             'code_output' : code_output,
             'read_only' : read_only,
+            'code_input' : code_input,
             }
     return render_to_response('codepage.html',context_list,context)

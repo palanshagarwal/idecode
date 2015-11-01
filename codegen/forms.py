@@ -5,6 +5,8 @@ from django_ace import AceWidget
 
 class SnippetForm(forms.ModelForm):
     write_key = forms.CharField(required=False)
+    manual_input = forms.CharField( widget=forms.Textarea,required=False)
+    custom_input = forms.BooleanField(required=False)
     class Meta:
         model = Snippet
         fields = ['text', 'lang', 'file_name']
