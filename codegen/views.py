@@ -56,6 +56,7 @@ def compile_n_run( source, lang):
             'lang': lang,
             'time_limit': 5,
             'memory_limit': 262144,
+            # 'input' : 1,
         }
     r = requests.post(RUN_URL, data=data)
     return r.json()

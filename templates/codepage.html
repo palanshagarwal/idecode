@@ -19,6 +19,83 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 	</a>
 {% endif %}
 </p>
+{% block output %} 
+
+{% if code_output %}
+****************************************************************
+<div class="output" id="output" style="white-space: nowrap;overflow: scroll;">
+
+<div class="content-heading-bold medium-margin">Compilation Log</div>
+<div class="less-margin">
+    <pre class="light">{{ code_output.compile_status }} </pre>
+</div>
+
+<div class="content-heading-bold" replacedata="false">Output</div>
+<div class="less-margin">
+    {% if code_output.run_status.output %}
+        <pre class="light">{{ code_output.run_status.output }} </pre>
+    {% else %}
+    	<pre class="light">Standard output is empty</pre>
+    {% endif %}
+        
+     
+</div>
+<div class="content-heading-bold medium-margin">Input</div>
+
+<div class="less-margin">
+    {% if code_input %}
+        <pre class="light">{{ code_input }} </pre>
+    {% else %}
+    	<pre class="light">Standard input is empty</pre>
+    {% endif %}
+</div><br>
+<div class="float-left col">
+    <div class="content-heading-bold"> Code ID: {{ code.code_id }}
+    </div>
+    <!-- <div class="less-margin body-font dark"> November 01, 2015 at 02:45 PM
+    </div> -->
+</div><br>
+<div class="float-left col">
+    <div class="content-heading-bold">Time (sec)
+    </div>
+    <div class="less-margin body-font dark"> 
+    {% if code_output.run_status.time_used %}
+    	{{ code_output.run_status.time_used }}
+    {% else %}
+    	0.0
+    {% endif %}
+    </div>
+</div><br>
+<div class="float-left col">
+    <div class="content-heading-bold"> Memory (KB)
+    </div>
+    <div class="less-margin body-font dark"> 
+    {% if code_output.run_status.memory_used %}
+    	{{ code_output.run_status.memory_used }}
+    {% else %}
+    	0
+    {% endif %}
+    </div>
+</div><br>
+<div class="float-left col">
+    <div class="content-heading-bold"> Status
+    </div>
+    <div class="less-margin body-font dark"> 
+    {{ code_output.run_status.status }}
+    </div>
+</div><br>
+<div class="float-left col">
+    <div class="content-heading-bold"> Status Detail
+    </div>
+    <div class="less-margin body-font dark"> 
+    {{ code_output.run_status.status_detail }}
+    </div>
+</div>
+<div class="clear"></div>
+
+</div>
+{% endif %}
+{% endblock %}
 {% endblock %}
 
 {% block code_id %}
@@ -39,8 +116,3 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 {% endblock %}
 
 
-{% block output %} 
-	{% if code_output %}
-		{{ code_output }}
-	{% endif %}
-{% endblock %}
