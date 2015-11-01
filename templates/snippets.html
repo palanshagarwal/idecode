@@ -10,18 +10,79 @@ header {
     text-align:center;
     padding:5px;
 }
+footer {
+        background-color:black;
+        color:white;
+        clear:both;
+        text-align:center;
+        padding:5px;         
+    }
 </style>
 </head>
 <body>
 <header>
 <h1>CodeTable</h1>
 </header>
-<form action="" method="post">
+
+<div id="container">
+<div style="float:right;background-color:#eeeeee;padding:20px;width:350px;height:750px;line-height:60px;">
+<a href="/" class="btn btn-info" role="button" target="_blank">New Code</a><br>
+<a href="/" class="btn btn-info" role="button">Clone!</a><br>
+<a href="/" class="btn btn-info" role="button">Download</a><br>
+{% block run_count %}{% endblock %}
+</div>
+
+<div style=" float:left;padding:20px;">
+
+{% block form %}
+<form action="/codegen/" method="post">
+{% endblock %}
+
 {% csrf_token %}
+<!-- {{ form.lang }}<br> -->
+{{ form.file_name }}<br><br>
+
+<div style="float:left;">
+<select name="lang" class="form-control col-sm-3" id="lang">
+    <option value="C" selected="selected">C</option>
+    <option value="CPP">C++</option>
+    <option value="CPP11">C++11</option>
+    <option value="CLOJURE">Clojure</option>
+    <option value="CSS">CSS</option>
+    <option value="CSHARP">C#</option>
+    <option value="HTML">HTML</option>
+    <option value="GO">Go</option>
+    <option value="JAVA">Java</option>
+    <option value="JAVASCRIPT">JavaScript(Rhino)</option>
+    <option value="JAVASCRIPT_NODE">JavaScript(Node.js)</option>
+    <option value="HASKELL">Haskell</option>
+    <option value="PERL">Perl</option>
+    <option value="PHP">PHP</option>
+    <option value="PYTHON">Python</option>
+    <option value="RUBY">Ruby</option>
+    <option value="RUST">Rust</option>
+    <option selected="selected">
+    {{ code.lang }}
+    </option>
+</select>
+</div>
+{% block save_button %} {% endblock %}
+
+<br><br>
 {{ form.text }}
-{{ form.lang }}
+
 <button class="btn btn-primary" type="submit">Compile & Run</button>
 </form>
+
+</div>
+<div style="float:left;">
+{% block output %} {% endblock %}
+</div>
+
+</div>
+<footer>
+Copyright © Codetable
+</footer>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous">
 </script>
 </body>

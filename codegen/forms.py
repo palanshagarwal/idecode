@@ -6,13 +6,7 @@ from django_ace import AceWidget
 class SnippetForm(forms.ModelForm):
     class Meta:
         model = Snippet
-	fields = ['text', 'lang']
+        fields = ['text', 'lang', 'file_name']
         widgets = {
-            "text": AceWidget(mode='python', theme='twilight'),
+            "text": AceWidget(mode='python', theme='twilight', width="700px", height="600px"),
         }
-
-    # def clean_text(self):
-    #     value = self.cleaned_data["text"]
-    #     if not "valid" in value:
-    #         raise forms.ValidationError("Must contain the string 'valid'")
-    #     return value
