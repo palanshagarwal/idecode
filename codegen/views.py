@@ -7,9 +7,11 @@ def simple(request):
     if request.method == 'POST':
         form = SnippetForm(request.POST)
         if form.is_valid():
-            textt = form.cleaned_data['text']
+            source = form.cleaned_data['text']
+            lang = form.cleaned_data['lang']
+            print source
             form.save()
-        form = SnippetForm(initial={'text': textt})
+        form = SnippetForm(initial={'text': source, 'lang':lang})
         return render(request, "snippets.html", {
             "form": form,
             "snippets": Snippet.objects.all()

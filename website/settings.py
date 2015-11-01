@@ -1,7 +1,7 @@
 import os
 from os.path import dirname, join
 
-ROOT = dirname(__file__)
+ROOT = os.path.dirname(dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
