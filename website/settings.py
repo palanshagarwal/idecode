@@ -77,11 +77,11 @@ STATICFILES_DIRS = (
 
 # List of finder classes that know how to find static files in
 # various locations.
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+# )
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '9n&amp;8h$h$a@gr)$!&amp;2=g7=t=a)_d#^5ex1zd_!!r)fuw7@xnv!+'
@@ -152,3 +152,4 @@ INSTALLED_APPS = (
 #         },
 #     }
 # }
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
