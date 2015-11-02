@@ -133,3 +133,21 @@ def update_code(request, code_id):
             'code_input' : code_input,
             }
     return render_to_response('codepage.html',context_list,context)
+
+
+def clone_code(request, code_id):
+    try:
+        code = Snippet.objects.get(pk=code_id)
+
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect('/')
+    snippet = Snippet()
+    snippet.text = code.text
+    snippet.lang = code.lang
+    snippet.file_name = code.file_name
+    snippet.save()
+    key = generate_key(snippet.code_id)
+    snippet.write_key = key
+    snippet.save()
+    return custom_redirect('update_code', snippet.code_id, key = snippet.write_key)
+        

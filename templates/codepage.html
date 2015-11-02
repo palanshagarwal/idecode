@@ -1,6 +1,7 @@
 {% extends 'snippets.html' %}
 
 {% block run_count %}
+<a href="{% url 'clone_code' code.code_id %}" class="btn btn-info" role="button" target="_blank" >Clone!</a><br><br>
 <a href="{{ code.download_url }}" class="btn btn-info" role="button">Download</a><br><br><br>
 <p> Run Count :    {{ code.run_count }} <br>
 </p>
@@ -9,12 +10,12 @@
 
 {% block access_url %}
 <p>Read Only URL:
-<a href="http://idecode.herokuapp.com/codegen/{{ code.code_id }}/"> 
+<a href="/codegen/{{ code.code_id }}/"> 
 http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 </a><br><br><br>
 
 {% if read_only %}
-    READ & Write URL: <a href="http://idecode.herokuapp.com/codegen/{{ code.code_id }}/?key={{ read_only }}"> 
+    READ & Write URL: <a href="/codegen/{{ code.code_id }}/?key={{ read_only }}"> 
     http://idecode.herokuapp.com/codegen/codegen/{{ code.code_id }}/?key={{ read_only }}
     </a>
 {% endif %}
