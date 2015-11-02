@@ -17,6 +17,10 @@ DOWNLOAD_PREFIX = 'https://code.hackerearth.com/download/'
 
 
 def simple(request):
+    """ 
+    This method creates a new snippet object when a code is 
+    compiled & run for first time.
+    """
     if request.method == 'POST':
         form = SnippetForm(request.POST)
         if form.is_valid():
@@ -42,6 +46,10 @@ def simple(request):
 
 
 def custom_redirect(url_name, *args, **kwargs):
+    """ 
+    This method redirects the view to the url_name passed
+    with arguments and GET parameters.
+    """
     from django.core.urlresolvers import reverse
     import urllib
     url = reverse(url_name, args=args)
@@ -50,12 +58,20 @@ def custom_redirect(url_name, *args, **kwargs):
 
 
 def generate_key(code_id):
+    """ 
+    This method generates a unique md5 hash using the 
+    combination of current time and code_id passed.
+    """
     from hashlib import md5
     from time import localtime
     return "%s" % (md5(str(localtime()) + str(code_id)).hexdigest())
 
 
 def compile_n_run(source, lang, inputt=None):
+    """ 
+    This method calls the hackerearth APIs to compile & run 
+    the code according to parameters passed.
+    """
     data = {
         'client_secret': CLIENT_SECRET,
         'async': 0,
@@ -71,6 +87,13 @@ def compile_n_run(source, lang, inputt=None):
 
 
 def update_code(request, code_id):
+    """ 
+    This method implements the core logic after a code is compiled & run once.
+    It takes care of read only and read & write permissions associated with the
+    code. 
+    It also updates the run count variable associated with each code snippet
+    object atomically.
+    """
     from django.db.models import F
     from django.core.exceptions import ObjectDoesNotExist
     context = RequestContext(request)
@@ -85,6 +108,7 @@ def update_code(request, code_id):
 
     if request.method == 'GET':
         if write_key == code.write_key:
+            # Run the code if it has not been run atleast once.
             if code.run_count == 0:
                 code_output = compile_n_run(code.text, code.lang)
                 read_only = write_key
@@ -132,7 +156,7 @@ def update_code(request, code_id):
 
             except ObjectDoesNotExist:
                 return HttpResponseRedirect('/')
-                
+
         else:
             lang = form.cleaned_data['lang']
             if form.cleaned_data['custom_input']:
@@ -165,6 +189,10 @@ def update_code(request, code_id):
 
 
 def clone_code(request, code_id):
+    """ 
+    This method clones the code associated with the code_id
+    as another snippet object.
+    """
     try:
         code = Snippet.objects.get(pk=code_id)
 
