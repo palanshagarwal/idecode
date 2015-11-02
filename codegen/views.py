@@ -71,6 +71,7 @@ def compile_n_run(source, lang, inputt=None):
 
 
 def update_code(request, code_id):
+    from django.db.models import F
     from django.core.exceptions import ObjectDoesNotExist
     context = RequestContext(request)
     try:
@@ -90,6 +91,7 @@ def update_code(request, code_id):
                 code.download_url = DOWNLOAD_PREFIX + \
                     str(code_output['code_id'])
                 code.run_count += 1
+                # code.run_count = F('run_count') + 1
                 code.save()
             else:
                 code_output = False
@@ -118,6 +120,7 @@ def update_code(request, code_id):
                 code_output = compile_n_run(code.text, code.lang)
             read_only = write_key
             code.run_count += 1
+            # code.run_count = F('run_count') + 1
             code.save()
         else:
             lang = form.cleaned_data['lang']
@@ -128,6 +131,7 @@ def update_code(request, code_id):
                 code_output = compile_n_run(code.text, lang)
             read_only = False
             code.run_count += 1
+            # code.run_count = F('run_count') + 1
             code.save()
 
     form = SnippetForm(
