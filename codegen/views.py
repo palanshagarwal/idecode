@@ -17,8 +17,8 @@ DOWNLOAD_PREFIX = 'https://code.hackerearth.com/download/'
 
 
 def simple(request):
-    """ 
-    This method creates a new snippet object when a code is 
+    """
+    This method creates a new snippet object when a code is
     compiled & run for first time.
     """
     if request.method == 'POST':
@@ -46,7 +46,7 @@ def simple(request):
 
 
 def custom_redirect(url_name, *args, **kwargs):
-    """ 
+    """
     This method redirects the view to the url_name passed
     with arguments and GET parameters.
     """
@@ -58,8 +58,8 @@ def custom_redirect(url_name, *args, **kwargs):
 
 
 def generate_key(code_id):
-    """ 
-    This method generates a unique md5 hash using the 
+    """
+    This method generates a unique md5 hash using the
     combination of current time and code_id passed.
     """
     from hashlib import md5
@@ -68,8 +68,8 @@ def generate_key(code_id):
 
 
 def compile_n_run(source, lang, inputt=None):
-    """ 
-    This method calls the hackerearth APIs to compile & run 
+    """
+    This method calls the hackerearth APIs to compile & run
     the code according to parameters passed.
     """
     data = {
@@ -87,10 +87,10 @@ def compile_n_run(source, lang, inputt=None):
 
 
 def update_code(request, code_id):
-    """ 
+    """
     This method implements the core logic after a code is compiled & run once.
     It takes care of read only and read & write permissions associated with the
-    code. 
+    code.
     It also updates the run count variable associated with each code snippet
     object atomically.
     """
@@ -189,7 +189,7 @@ def update_code(request, code_id):
 
 
 def clone_code(request, code_id):
-    """ 
+    """
     This method clones the code associated with the code_id
     as another snippet object.
     """
