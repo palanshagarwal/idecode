@@ -36,7 +36,7 @@ footer {
 </header>
 
 <div id="container">
-<div style="float:right;background-color:#eeeeee;padding:20px;width:350px;height:1000px;line-height:20px;">
+<div style="float:right;background-color:#eeeeee;padding:20px;width:350px;height:1000px;line-height:19px;">
 <a href="/" class="btn btn-info" role="button" target="_blank">New Code</a><br><br>
 
 
@@ -51,7 +51,6 @@ footer {
 {% endblock %}
 
 {% csrf_token %}
-<!-- {{ form.lang }}<br> -->
 {{ form.file_name }}<br><br>
 
 <div style="float:left;">
@@ -60,9 +59,7 @@ footer {
     <option value="CPP">CPP</option>
     <option value="CPP11">CPP11</option>
     <option value="CLOJURE">CLOJURE</option>
-    <!-- <option value="CSS">CSS</option> -->
     <option value="CSHARP">CSHARP</option>
-    <!-- <option value="HTML">HTML</option> -->
     <option value="GO">Go</option>
     <option value="JAVA">JAVA</option>
     <option value="JAVASCRIPT">JAVASCRIPT</option>

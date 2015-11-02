@@ -15,6 +15,7 @@ RUN_URL = 'https://api.hackerearth.com/v3/code/run/'
 CLIENT_SECRET = 'de88e83b32f8ac80fa060182170efc867355b051'
 DOWNLOAD_PREFIX = 'https://code.hackerearth.com/download/'
 
+
 def simple(request):
     if request.method == 'POST':
         form = SnippetForm(request.POST)
@@ -27,46 +28,51 @@ def simple(request):
             key = generate_key(snippet.code_id)
             snippet.write_key = key
             snippet.save()
-            return custom_redirect('update_code', snippet.code_id, key = snippet.write_key)
+            return custom_redirect(
+                'update_code',
+                snippet.code_id,
+                key=snippet.write_key)
         else:
-            form = SnippetForm(initial={'file_name':'Untitled File'})
+            form = SnippetForm(initial={'file_name': 'Untitled File'})
     else:
-        form = SnippetForm(initial={'file_name':'Untitled File'})
+        form = SnippetForm(initial={'file_name': 'Untitled File'})
     return render(request, "snippets.html", {
         "form": form,
     })
 
+
 def custom_redirect(url_name, *args, **kwargs):
-    from django.core.urlresolvers import reverse 
+    from django.core.urlresolvers import reverse
     import urllib
-    url = reverse(url_name, args = args)
+    url = reverse(url_name, args=args)
     params = urllib.urlencode(kwargs)
     return HttpResponseRedirect(url + "?%s" % params)
 
-def generate_key(code_id):
-  from hashlib import md5
-  from time import localtime
-  return "%s" % (md5(str(localtime()) + str(code_id)).hexdigest())
 
-def compile_n_run( source, lang, inputt=None):
+def generate_key(code_id):
+    from hashlib import md5
+    from time import localtime
+    return "%s" % (md5(str(localtime()) + str(code_id)).hexdigest())
+
+
+def compile_n_run(source, lang, inputt=None):
     data = {
-            'client_secret': CLIENT_SECRET,
-            'async': 0,
-            'source': source,
-            'lang': lang,
-            'time_limit': 5,
-            'memory_limit': 262144,
-            # 'input' : 1,
-        }
+        'client_secret': CLIENT_SECRET,
+        'async': 0,
+        'source': source,
+        'lang': lang,
+        'time_limit': 5,
+        'memory_limit': 262144,
+    }
     if inputt:
         data['input'] = inputt
     r = requests.post(RUN_URL, data=data)
     return r.json()
 
+
 def update_code(request, code_id):
     from django.core.exceptions import ObjectDoesNotExist
     context = RequestContext(request)
-    print code_id
     try:
         code = Snippet.objects.get(pk=code_id)
 
@@ -80,9 +86,9 @@ def update_code(request, code_id):
         if write_key == code.write_key:
             if code.run_count == 0:
                 code_output = compile_n_run(code.text, code.lang)
-                print code_output
                 read_only = write_key
-                code.download_url = DOWNLOAD_PREFIX + str(code_output['code_id'])
+                code.download_url = DOWNLOAD_PREFIX + \
+                    str(code_output['code_id'])
                 code.run_count += 1
                 code.save()
             else:
@@ -110,7 +116,6 @@ def update_code(request, code_id):
                 code_output = compile_n_run(code.text, code.lang, code_input)
             else:
                 code_output = compile_n_run(code.text, code.lang)
-            # code_output = compile_n_run(code.text, code.lang)
             read_only = write_key
             code.run_count += 1
             code.save()
@@ -121,19 +126,20 @@ def update_code(request, code_id):
                 code_output = compile_n_run(code.text, lang, code_input)
             else:
                 code_output = compile_n_run(code.text, lang)
-            # code_output = compile_n_run(code.text, code.lang)
             read_only = False
 
-    form = SnippetForm(initial={'text': code.text, 'file_name':code.file_name})
-    # print code.text
+    form = SnippetForm(
+        initial={
+            'text': code.text,
+            'file_name': code.file_name})
     context_list = {
-            'form':form,
-            'code': code,
-            'code_output' : code_output,
-            'read_only' : read_only,
-            'code_input' : code_input,
-            }
-    return render_to_response('codepage.html',context_list,context)
+        'form': form,
+        'code': code,
+        'code_output': code_output,
+        'read_only': read_only,
+        'code_input': code_input,
+    }
+    return render_to_response('codepage.html', context_list, context)
 
 
 def clone_code(request, code_id):
@@ -150,5 +156,7 @@ def clone_code(request, code_id):
     key = generate_key(snippet.code_id)
     snippet.write_key = key
     snippet.save()
-    return custom_redirect('update_code', snippet.code_id, key = snippet.write_key)
-        
+    return custom_redirect(
+        'update_code',
+        snippet.code_id,
+        key=snippet.write_key)

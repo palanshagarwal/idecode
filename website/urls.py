@@ -6,8 +6,8 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'codegen.views.simple', name='simple'),
-    url(r'^codegen/', include('codegen.urls')),
+                       url(r'^admin/', include(admin.site.urls)),
+                       url(r'^$', 'codegen.views.simple', name='simple'),
+                       url(r'^codegen/', include('codegen.urls')),
 
-)
+                       )
