@@ -14,9 +14,9 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 </a><br><br><br>
 
 {% if read_only %}
-	READ & Write URL: <a href="http://idecode.herokuapp.com/codegen/{{ code.code_id }}/?key={{ read_only }}"> 
-	http://idecode.herokuapp.com/codegen/codegen/{{ code.code_id }}/?key={{ read_only }}
-	</a>
+    READ & Write URL: <a href="http://idecode.herokuapp.com/codegen/{{ code.code_id }}/?key={{ read_only }}"> 
+    http://idecode.herokuapp.com/codegen/codegen/{{ code.code_id }}/?key={{ read_only }}
+    </a>
 {% endif %}
 </p>
 {% block output %} 
@@ -35,7 +35,7 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
     {% if code_output.run_status.output %}
         <pre class="light">{{ code_output.run_status.output }} </pre>
     {% else %}
-    	<pre class="light">Standard output is empty</pre>
+        <pre class="light">Standard output is empty</pre>
     {% endif %}
         
      
@@ -46,7 +46,7 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
     {% if code_input %}
         <pre class="light">{{ code_input }} </pre>
     {% else %}
-    	<pre class="light">Standard input is empty</pre>
+        <pre class="light">Standard input is empty</pre>
     {% endif %}
 </div><br>
 <div class="float-left col">
@@ -60,9 +60,9 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
     </div>
     <div class="less-margin body-font dark"> 
     {% if code_output.run_status.time_used %}
-    	{{ code_output.run_status.time_used }}
+        {{ code_output.run_status.time_used }}
     {% else %}
-    	0.0
+        0.0
     {% endif %}
     </div>
 </div><br>
@@ -71,9 +71,9 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
     </div>
     <div class="less-margin body-font dark"> 
     {% if code_output.run_status.memory_used %}
-    	{{ code_output.run_status.memory_used }}
+        {{ code_output.run_status.memory_used }}
     {% else %}
-    	0
+        0
     {% endif %}
     </div>
 </div><br>
@@ -100,14 +100,10 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 
 {% block code_id %}
 <input type="hidden" name="code_id" value=" {{ code.code_id }} " />
-
 {% endblock %}
 
 
 {% block form %}
-{% if not read_only %}
-<h3>This is a Read Only code. Please Clone to edit it!</h3>
-{% endif%}
 <form action="/codegen/{{ code.code_id }}/" method="post">
 {% endblock %}
 
@@ -119,12 +115,6 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 </div>
 {% endblock %}
 
-{% block text %}
-{% if not read_only %}
-<textarea name="text" rows="30" cols="90" readonly>{{ code.text }}</textarea><br>
-{% endif%}
-{% endblock %}
-
 {% block custom_input %}
 <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'>
 </script>
@@ -132,7 +122,7 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 $(document).ready(function() {
    $('input[type="checkbox"]').click(function() {
        if($(this).attr('id') == 'custom_input') {
-       		$('#manual_input').show();         
+            $('#manual_input').show();         
        }
    });
 });
