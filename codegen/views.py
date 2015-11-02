@@ -127,6 +127,8 @@ def update_code(request, code_id):
             else:
                 code_output = compile_n_run(code.text, lang)
             read_only = False
+            code.run_count += 1
+            code.save()
 
     form = SnippetForm(
         initial={
