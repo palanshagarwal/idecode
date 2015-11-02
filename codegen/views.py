@@ -115,11 +115,12 @@ def update_code(request, code_id):
             code.run_count += 1
             code.save()
         else:
+            lang = form.cleaned_data['lang']
             if form.cleaned_data['custom_input']:
                 code_input = form.cleaned_data['manual_input']
-                code_output = compile_n_run(code.text, code.lang, code_input)
+                code_output = compile_n_run(code.text, lang, code_input)
             else:
-                code_output = compile_n_run(code.text, code.lang)
+                code_output = compile_n_run(code.text, lang)
             # code_output = compile_n_run(code.text, code.lang)
             read_only = False
 

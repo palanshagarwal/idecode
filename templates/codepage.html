@@ -112,7 +112,12 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 {% block save_button %}
 <input type="hidden" name="write_key" value="{{ read_only }}">
 <div style="margin-left: 700px">
+{% if read_only %}
 <a href=""><button type="button" class="btn btn-success">Save</button></a>
+{% else %}
+This code is Read only <br>Clone to edit!
+
+{% endif %}
 </div>
 {% endblock %}
 
