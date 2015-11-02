@@ -105,7 +105,7 @@ http://idecode.herokuapp.com/codegen/{{ code.code_id }}/
 
 
 {% block form %}
-<form action="/codegen/{{ code.code_id }}/" method="post">
+<form action="{% url 'update_code' code.code_id %}" method="post">
 {% endblock %}
 
 
