@@ -90,9 +90,14 @@ def update_code(request, code_id):
                 read_only = write_key
                 code.download_url = DOWNLOAD_PREFIX + \
                     str(code_output['code_id'])
-                code.run_count += 1
-                # code.run_count = F('run_count') + 1
+                # code.run_count += 1
+                code.run_count = F('run_count') + 1
                 code.save()
+                try:
+                    code = Snippet.objects.get(pk=code_id)
+
+                except ObjectDoesNotExist:
+                    return HttpResponseRedirect('/')
             else:
                 code_output = False
                 read_only = write_key
@@ -119,9 +124,15 @@ def update_code(request, code_id):
             else:
                 code_output = compile_n_run(code.text, code.lang)
             read_only = write_key
-            code.run_count += 1
-            # code.run_count = F('run_count') + 1
+            # code.run_count += 1
+            code.run_count = F('run_count') + 1
             code.save()
+            try:
+                code = Snippet.objects.get(pk=code_id)
+
+            except ObjectDoesNotExist:
+                return HttpResponseRedirect('/')
+                
         else:
             lang = form.cleaned_data['lang']
             if form.cleaned_data['custom_input']:
@@ -130,9 +141,14 @@ def update_code(request, code_id):
             else:
                 code_output = compile_n_run(code.text, lang)
             read_only = False
-            code.run_count += 1
-            # code.run_count = F('run_count') + 1
+            # code.run_count += 1
+            code.run_count = F('run_count') + 1
             code.save()
+            try:
+                code = Snippet.objects.get(pk=code_id)
+
+            except ObjectDoesNotExist:
+                return HttpResponseRedirect('/')
 
     form = SnippetForm(
         initial={
