@@ -193,6 +193,7 @@ def clone_code(request, code_id):
     This method clones the code associated with the code_id
     as another snippet object.
     """
+    from django.core.exceptions import ObjectDoesNotExist
     try:
         code = Snippet.objects.get(pk=code_id)
 
