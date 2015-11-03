@@ -12,20 +12,32 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# DATABASES = {
+#     'default': {
+#         # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         # Or path to database file if using sqlite3.
+#         'NAME': join(ROOT, 'database.sqlite3'),
+#         'USER': '',                      # Not used with sqlite3.
+#         'PASSWORD': '',                  # Not used with sqlite3.
+#         # Set to empty string for localhost. Not used with sqlite3.
+#         'HOST': '',
+#         # Set to empty string for default. Not used with sqlite3.
+#         'PORT': '',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.sqlite3',
-        # Or path to database file if using sqlite3.
-        'NAME': join(ROOT, 'database.sqlite3'),
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        # Set to empty string for localhost. Not used with sqlite3.
-        'HOST': '',
-        # Set to empty string for default. Not used with sqlite3.
-        'PORT': '',
+'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'sql695262',                    
+    'USER': 'sql695262',                    
+    'PASSWORD': 'aR9*yK8*',                
+    'HOST': 'sql6.freemysqlhosting.net',                 
+    'PORT': '3306',                     
     }
 }
+
 
 TIME_ZONE = 'UTC'
 
